@@ -1,9 +1,9 @@
 use asciigen;
+use clap::Parser;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
-    println!("Hello, world!");
-    let filename = String::from("img.png");
+    let args = asciigen::asciigen::Args::parse();
 
-    asciigen::asciigen::convert(&filename)?;
+    asciigen::asciigen::convert(args)?;
     Ok(())
 }
