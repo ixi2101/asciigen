@@ -24,8 +24,11 @@ pub mod asciigen {
 
     fn lookup(val: u8) -> char {
         let luminosity = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft()1{}[]?-_+~<>i!lI;:,";
-        let bval = (val / 255) * (luminosity.len() as u8 - 1);
-        luminosity.chars().nth((bval).into()).unwrap()
+        let fval = (val as f32 / 255.0) as f32;
+        let xval = fval * (luminosity.len() as f32 - 1.0);
+
+        
+        luminosity.chars().nth(xval as usize).unwrap()
     }
 
     fn resize(args: Args, img: &GrayImage) -> Result<GrayImage, Box<dyn std::error::Error>> {
@@ -42,8 +45,9 @@ pub mod asciigen {
         eprintln!("printing to {}w x {}h", nwidth, nheight);
         let resized: GrayImage =
             image::imageops::resize(img, nwidth, nheight, image::imageops::FilterType::Nearest);
-
-        Ok(resized)
+        let resized_ctr = image::imageops::contrast(&resized, 100.0);
+        resized_ctr.save("debug.png")?;
+        Ok(resized_ctr)
     }
 
     pub fn convert(args: Args) -> Result<(), Box<dyn std::error::Error>> {
