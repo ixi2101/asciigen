@@ -29,7 +29,6 @@ pub mod asciigen {
     }
 
     fn resize(args: Args, img: &GrayImage) -> Result<GrayImage, Box<dyn std::error::Error>> {
-        // Scale to 80W
         let scale_factor: u32;
         match args.height {
             None => match args.width {
@@ -50,7 +49,6 @@ pub mod asciigen {
     pub fn convert(args: Args) -> Result<(), Box<dyn std::error::Error>> {
         let img = ImageReader::open(&args.path)?.decode()?;
         let luma: GrayImage = DynamicImage::into_luma8(img);
-        // luma = image::imageops::resize(&luma, 40, 20, image::imageops::FilterType::Nearest);
         let luma_resized = resize(args, &luma)?;
         for (_n, i) in luma_resized.enumerate_rows() {
             // Print to console.
@@ -58,6 +56,5 @@ pub mod asciigen {
             println!();
         }
         Ok(())
-        //eprintln!("Printing complete");
     }
 }
