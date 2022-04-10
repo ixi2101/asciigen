@@ -1,6 +1,5 @@
 pub mod asciigen {
 
-
     use clap::{ArgGroup, Parser};
     use image::{io::Reader as ImageReader, DynamicImage, GrayImage};
 
@@ -39,7 +38,7 @@ pub mod asciigen {
             },
             Some(h) => scale_factor = img.height() / h,
         }
-        let nwidth = img.width()  / scale_factor;
+        let nwidth = img.width() / scale_factor;
         let nheight = img.height() / scale_factor;
         eprintln!("printing to {}w x {}h", nwidth, nheight);
         let resized: GrayImage =
