@@ -1,6 +1,5 @@
 pub mod asciigen {
 
-    use std::ptr::NonNull;
 
     use clap::{ArgGroup, Parser};
     use image::{io::Reader as ImageReader, DynamicImage, GrayImage};
@@ -40,9 +39,9 @@ pub mod asciigen {
             },
             Some(h) => scale_factor = img.height() / h,
         }
-        let nwidth = img.width() * 1 / scale_factor;
-        let nheight = img.height() * 1 / scale_factor;
-        eprintln!("printing to {} x {}", nwidth, nheight);
+        let nwidth = img.width()  / scale_factor;
+        let nheight = img.height() / scale_factor;
+        eprintln!("printing to {}w x {}h", nwidth, nheight);
         let resized: GrayImage =
             image::imageops::resize(img, nwidth, nheight, image::imageops::FilterType::Nearest);
 
@@ -57,7 +56,7 @@ pub mod asciigen {
         for (_n, i) in luma_resized.enumerate_rows() {
             // Print to console.
             i.into_iter().for_each(|x| print!("{} ", lookup(x.2 .0[0])));
-            println!("");
+            println!();
         }
         Ok(())
         //eprintln!("Printing complete");
